@@ -1,4 +1,4 @@
-import React, { act } from 'react'
+import React from 'react'
 import { renderHook } from '@testing-library/react'
 import { BookContext } from '@/context/BookContext'
 import { useBooks } from '../useBooks'

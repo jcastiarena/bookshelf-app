@@ -33,6 +33,7 @@ export default function EditBookForm({ book }: { book: Book }) {
       setSuccess('Book edited!');
       router.push('/books');
     } catch (err) {
+      console.error(err);
       setError('Something went wrong.');
     }
   }

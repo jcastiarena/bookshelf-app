@@ -6,7 +6,7 @@ global.fetch = vi.fn(() =>
     ok: true,
     json: () => Promise.resolve({ books: [], total: 0, totalPages: 0, currentPage: 1 }),
   })
-) as any
+) as unknown as typeof global.fetch
 
 test('fetches paginated books', async () => {
   const result = await bookService.getAll(1, 10)
