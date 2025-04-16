@@ -1,11 +1,8 @@
 import { prisma } from '@/lib/prisma'
 import { NextResponse } from 'next/server'
 
-export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
-  ) {
-  const id = parseInt(params.id, 10)
+export async function GET(req: NextRequest, context: { params: { id: string } }) {
+  const { id } = context.params;  
   console.log('Book ID:', id)
   
   if (isNaN(id)) {
@@ -13,7 +10,7 @@ export async function GET(
   }
 
   const book = await prisma.book.findUnique({
-    where: { id },
+    where: { id: parseInt(id, 10) },
   })
 
   if (!book) {
