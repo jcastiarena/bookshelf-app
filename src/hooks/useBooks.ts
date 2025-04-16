@@ -22,7 +22,7 @@ export function useBooks() {
     } finally {
       setIsLoading(false)
     }
-  }, []);
+  }, [page, setIsLoading, setBooks, setTotal, setTotalPages]);
 
   const deleteBook = async (id: number) => {
     const ok = await bookService.delete(id)

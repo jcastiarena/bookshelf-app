@@ -11,8 +11,8 @@ export default function BooksPage() {
   const { books, fetchBooks, deleteBook, undoDelete, isLoading, page, setPage, totalPages, total } = useBooks()
 
   useEffect(() => {
-    fetchBooks()
-  }, [page])
+    fetchBooks();
+  }, [fetchBooks]);
   
   const handleDelete = (book: Book) => {
     const confirmed = confirm('Are you sure you want to delete this book?')
