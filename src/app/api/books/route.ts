@@ -31,7 +31,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const { title, author, status = 'TO_READ' } = await req.json()
+  const { title, author, status = 'to_read' } = await req.json()
   const newBook = await prisma.book.create({
       data: { title, author, status },
   })

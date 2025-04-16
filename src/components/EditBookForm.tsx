@@ -61,7 +61,7 @@ export default function EditBookForm({ book }: { book: Book }) {
       </div>
       <div className="flex justify-between items-center">
         <Link href="/books">
-          <button type="button" className="text-gray-600 hover:underline">Cancel</button>
+          <button type="button" className="text-gray-600 hover:underline dark:text-gray-200">Cancel</button>
         </Link>
         <button
           type="submit"

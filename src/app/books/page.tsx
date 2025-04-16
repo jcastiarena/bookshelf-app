@@ -55,10 +55,10 @@ export default function BooksPage() {
         </Link>
       </div>
 
-      <p className="text-sm text-gray-600 mb-4">Total items: {total}</p>
+      <p className="text-sm text-gray-600 mb-4 dark:text-gray-200">Total items: {total}</p>
 
       {books.length === 0 ? (
-        <p className="text-gray-600">No books available.</p>
+        <p className="text-gray-600 dark:text-gray-200">No books available.</p>
       ) : (
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {books.map((book) => (
@@ -83,14 +83,14 @@ export default function BooksPage() {
         <button
           onClick={() => setPage(1)}
           disabled={page === 1}
-          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 dark:bg-gray-700"
         >
           First
         </button>
         <button
           onClick={() => setPage((p) => Math.max(1, p - 1))}
           disabled={page === 1}
-          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 dark:bg-gray-700"
         >
           Previous
         </button>
@@ -108,14 +108,14 @@ export default function BooksPage() {
         <button
           onClick={() => setPage((p) => p + 1)}
           disabled={totalPages !== null && page >= totalPages}
-          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 dark:bg-gray-700"
         >
           Next
         </button>
         <button
           onClick={() => setPage(totalPages)}
           disabled={totalPages !== null && page >= totalPages}
-          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 dark:bg-gray-700"
         >
           Last
         </button>

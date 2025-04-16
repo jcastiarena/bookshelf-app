@@ -40,14 +40,14 @@ export default function AddBookForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-xl shadow space-y-4 max-w-md mx-auto mt-6">
-      <h2 className="text-2xl font-bold dark:text-black">Add New Book</h2>
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-xl shadow space-y-4 max-w-md mx-auto mt-6 dark:bg-gray-800">
+      <h2 className="text-2xl font-bold dark:text-white">Add New Book</h2>
 
       {error && <p className="text-red-600 text-sm">{error}</p>}
       {success && <p className="text-green-600 text-sm">{success}</p>}
 
       <div>
-        <label className="block text-sm font-medium mb-1 dark:text-black" htmlFor="title">Title</label>
+        <label className="block text-sm font-medium mb-1 dark:text-white" htmlFor="title">Title</label>
         <input
           id="title"
           value={title}
@@ -58,7 +58,7 @@ export default function AddBookForm() {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1 dark:text-black" htmlFor="author">Author</label>
+        <label className="block text-sm font-medium mb-1 dark:text-white" htmlFor="author">Author</label>
         <input
           id="author"
           value={author}
