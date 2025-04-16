@@ -21,7 +21,6 @@ export function useBooks() {
       setTotalPages(totalPages)
     } finally {
       setIsLoading(false)
-      
     }
   }
 

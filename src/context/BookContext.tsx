@@ -26,7 +26,8 @@ export function BookProvider({ children }: { children: React.ReactNode }) {
 
   async function fetchBooks() {
     const data = await bookService.getAll()
-    setBooks(data)
+    setBooks(data.books)
+    setTotalPages(data.totalPages)
   }
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export function BookProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   return (
-    <BookContext.Provider value={{ books, fetchBooks, setBooks, isLoading, setIsLoading, page, setPage }}>
+    <BookContext.Provider value={{ books, fetchBooks, setBooks, isLoading, setIsLoading, page, setPage, totalPages, setTotalPages }}>
       {children}
     </BookContext.Provider>
   )

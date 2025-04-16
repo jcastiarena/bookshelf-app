@@ -1,5 +1,5 @@
+import { Book } from '@/types';
 import React from 'react'
-import { Book } from "@/lib/mockedBooks";
 
 type Props = {
   book: Book;
@@ -16,7 +16,7 @@ const statusColor = {
     <div className="">
       <h2 className="text-lg font-semibold">{book.title}</h2>
       <p className="text-sm text-gray-600 dark:text-gray-400">{book.author}</p>
-      <span className={`mt-2 inline-block px-2 py-1 text-sm rounded ${statusColor[book.status]}`}>
+      <span className={`mt-2 inline-block px-2 py-1 text-sm rounded ${statusColor[book.status as keyof typeof statusColor]}`}>
         {book.status}
       </span>
     </div>

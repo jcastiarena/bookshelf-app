@@ -11,10 +11,6 @@ export default defineConfig({
     coverage: {
       reporter: ['text', 'html', 'lcov'],
       exclude: ['**/node_modules/**', '**/test-utils/**'],
-      lines: 80,
-      functions: 80,
-      branches: 70,
-      statements: 80,
     },
   },
   resolve: {

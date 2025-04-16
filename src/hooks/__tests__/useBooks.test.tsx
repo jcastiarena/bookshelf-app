@@ -15,6 +15,7 @@ describe('useBooks', () => {
     setIsLoading: vi.fn(),
     page: 1,
     setPage: vi.fn(),
+    setTotalPages: vi.fn(),
     totalPages: 0,
     total: 0,
   }
@@ -41,6 +42,7 @@ describe('useBooks', () => {
       setIsLoading: vi.fn(),
       page: 1,
       setPage: vi.fn(),
+      setTotalPages: vi.fn(),
       totalPages: 1,
       total: 1,
     }
