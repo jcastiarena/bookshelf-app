@@ -1,9 +1,8 @@
 'use client'
 
 import { useBookContext } from '@/context/BookContext'
-import { bookService } from '@/lib/services/bookService'
+import { bookService } from '@/services/bookService'
 import { Book } from '@/types'
-import toast from 'react-hot-toast'
 import { useState } from 'react'
 import { PAGE_SIZE } from '@/lib/appConfig'
 
@@ -29,9 +28,8 @@ export function useBooks() {
     const ok = await bookService.delete(id)
     if (ok) {
       setBooks((prev) => prev.filter((book) => book.id !== id))
-      toast.success('Book deleted')
     } else {
-      toast.error('Failed to delete book')
+      console.log('Failed to delete book')
     }
   }
 

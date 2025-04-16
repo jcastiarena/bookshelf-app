@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from 'react'
 import { Book } from '@/types'
-import { bookService } from '@/lib/services/bookService'
+import { bookService } from '@/services/bookService'
 
 type BookContextType = {
   books: Book[]
@@ -16,7 +16,7 @@ type BookContextType = {
   setTotalPages: React.Dispatch<React.SetStateAction<number>>
 }
 
-const BookContext = createContext<BookContextType | undefined>(undefined)
+export const BookContext = createContext<BookContextType | undefined>(undefined)
 
 export function BookProvider({ children }: { children: React.ReactNode }) {
   const [books, setBooks] = useState<Book[]>([])

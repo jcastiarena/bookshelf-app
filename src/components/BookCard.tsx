@@ -1,7 +1,5 @@
-// src/components/BookCard.tsx
-"use client";
-
-import { Book } from "@/lib/books";
+import React from 'react'
+import { Book } from "@/lib/mockedBooks";
 
 type Props = {
   book: Book;
