@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { seed } from '@/prisma/seed'; // adjust path if needed
+import { seed } from '../../../../prisma/seed'
 
 export async function GET() {
   try {

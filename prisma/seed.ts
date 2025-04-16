@@ -22,7 +22,7 @@ export async function seed() {
 }
 
 // CLI support
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   seed()
     .catch((e) => {
       console.error(e)
