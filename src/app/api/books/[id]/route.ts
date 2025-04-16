@@ -1,45 +1,45 @@
 import { prisma } from '@/lib/prisma'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(req: NextRequest, context: { params: { id: string } }) {
-  const { id } = context.params;  
-  console.log('Book ID:', id)
+export async function GET(
+  req: NextRequest, context: { params: { id: string } }) {
   
-  if (isNaN(id)) {
-    return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
-  }
+    const { id } = context.params;  
+    console.log('Book ID:', id)
+    
+    if (isNaN(parseInt(id, 10))) {
+      return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
+    }
 
-  const book = await prisma.book.findUnique({
-    where: { id: parseInt(id, 10) },
-  })
+    const book = await prisma.book.findUnique({
+      where: { id: parseInt(id, 10) },
+    })
 
-  if (!book) {
-    return NextResponse.json({ error: 'Book not found' }, { status: 404 })
-  }
+    if (!book) {
+      return NextResponse.json({ error: 'Book not found' }, { status: 404 })
+    }
 
-  return NextResponse.json(book)
+    return NextResponse.json(book)
 }
 
 export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const id = parseInt(params.id, 10)
-  if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
+  req: NextRequest, context: { params: { id: string } }) {
 
-  await prisma.book.delete({ where: { id } })
+  const { id } = context.params;
+  if (isNaN(parseInt(id, 10))) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
+
+  await prisma.book.delete({ where: { id: parseInt(id, 10) } })
   return NextResponse.json({ message: 'Deleted' })
 }
 
 export async function PATCH(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const id = parseInt(params.id, 10)
+  req: NextRequest, context: { params: { id: string } }) {
+
+  const { id } = context.params;
   const { title, author } = await req.json()
 
   const updated = await prisma.book.update({
-    where: { id },
+    where: { id: parseInt(id, 10) },
     data: { title, author },
   })
 
