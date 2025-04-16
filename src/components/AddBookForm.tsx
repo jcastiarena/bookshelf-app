@@ -35,6 +35,7 @@ export default function AddBookForm() {
       setTitle('');
       setAuthor('');
     } catch (err) {
+      console.error(err)
       setError('Something went wrong.');
     }
   }
