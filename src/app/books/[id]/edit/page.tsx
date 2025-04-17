@@ -5,11 +5,13 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { Book } from '@/types'
+import { useBooks } from '@/hooks/useBooks'
 
 export default function EditBookPage() {
   const params = useParams()
   const router = useRouter()
   const [book, setBook] = useState<Book | null>(null)
+  const { getById } = useBooks();
 
   useEffect(() => {
     const id = params?.id
@@ -20,9 +22,9 @@ export default function EditBookPage() {
 
     const fetchBook = async () => {
       try {
-        const res = await fetch(`/api/books/${id}`)
-        if (!res.ok) throw new Error('Failed to fetch')
-        setBook(await res.json())
+        const res = await getById(Number(id))
+        if (!res) throw new Error('Failed to fetch')
+        setBook(res)
       } catch (error) {
         console.error(error)
         router.push('/books')
@@ -30,7 +32,7 @@ export default function EditBookPage() {
     }
 
     fetchBook()
-  }, [params?.id, router])
+  }, [params?.id, router, getById, setBook])
 
   if (!book) return <p className="p-6">Loading...</p>
 

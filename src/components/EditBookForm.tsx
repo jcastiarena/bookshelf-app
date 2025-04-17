@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Book } from '@prisma/client';
+import { useBooks } from '@/hooks/useBooks';
 
 export default function EditBookForm({ book }: { book: Book }) {
   const [title, setTitle] = useState(book.title);
@@ -11,25 +12,22 @@ export default function EditBookForm({ book }: { book: Book }) {
   const [, setError] = useState('');
   const [, setSuccess] = useState('');
   const router = useRouter()
+  const [status, setStatus] = useState(book.status);
+  const statuses = ['to-read', 'reading', 'finished']
+  const { updateBook } = useBooks();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
     setSuccess('');
 
-    if (!title || !author) {
+    if (!title || !author || !status) {
       setError('Please fill in all fields');
       return;
     }
 
     try {
-      const res = await fetch(`/api/books/${book.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, author }),
-      });
-
-      if (!res.ok) throw new Error('Failed to edit book');
+      await updateBook(book.id, { title, author, status });
       setSuccess('Book edited!');
       router.push('/books');
     } catch (err) {
@@ -59,6 +57,20 @@ export default function EditBookForm({ book }: { book: Book }) {
           className="w-full border rounded px-3 py-2"
           required
         />
+      </div>
+      <div>
+        <label className="block font-semibold">Estado</label>
+        <select
+          className="border px-3 py-2 rounded w-full"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
+          {statuses.map((s) => (
+            <option key={s} value={s}>
+              {s}
+            </option>
+          ))}
+        </select>
       </div>
       <div className="flex justify-between items-center">
         <Link href="/books">

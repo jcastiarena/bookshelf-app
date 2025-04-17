@@ -53,17 +53,17 @@ export async function DELETE(request: Request) {
  */
 export async function PATCH(request: Request) {
   const url = new URL(request.url);
-  const id = url.pathname.split('/').pop();
+  const body = await request.json();
+  console.log(body);
 
+  const id = url.pathname.split('/').pop();
   if (!id || isNaN(parseInt(id, 10))) {
     return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
   }
 
-  const { title, author } = await request.json()
-
   const updated = await prisma.book.update({
     where: { id: parseInt(id, 10) },
-    data: { title, author },
+    data: { title: body.title, author: body.author, status: body.status },
   })
 
   return NextResponse.json(updated)

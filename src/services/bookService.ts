@@ -1,4 +1,8 @@
 import { Book } from '@/types'
+import { toast } from 'react-hot-toast';
+
+export const BOOK_STATUSES = ['to-read', 'reading', 'finished'] as const;
+export type BookStatus = (typeof BOOK_STATUSES)[number];
 
 const API_BASE = '/api/books'
 
@@ -23,8 +27,15 @@ export const bookService = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(book),
     })
-    if (!res.ok) throw new Error('Failed to create book')
-    return res.json()
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}))
+      const message = error?.message || 'Something went wrong';
+      toast.error(message);
+      throw new Error(message);
+    }
+    const result = await res.json();
+    toast.success('Book created');
+    return result;
   },
 
   async update(id: number, book: Partial<Book>) {
@@ -33,8 +44,15 @@ export const bookService = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(book),
     })
-    if (!res.ok) throw new Error('Failed to update book')
-    return res.json()
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}))
+      const message = error?.message || 'Something went wrong';
+      toast.error(message);
+      throw new Error(message);
+    }
+    const result = await res.json();
+    toast.success('Book updated');
+    return result;
   },
 
   async getById(id: number): Promise<Book> {

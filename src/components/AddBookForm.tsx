@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useBooks } from '@/hooks/useBooks';
 
 export default function AddBookForm() {
   const [title, setTitle] = useState('');
@@ -10,6 +11,7 @@ export default function AddBookForm() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const router = useRouter()
+  const { createBook } = useBooks();
 
 
   async function handleSubmit(e: React.FormEvent) {
@@ -23,13 +25,8 @@ export default function AddBookForm() {
     }
 
     try {
-      const res = await fetch('/api/books', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, author }),
-      });
-
-      if (!res.ok) throw new Error('Failed to add book');
+      const res = await createBook({ title, author, status: 'to-read' });
+      if (!res) throw new Error('Failed to add book');
       router.push('/books')
       setSuccess('Book added!');
       setTitle('');
