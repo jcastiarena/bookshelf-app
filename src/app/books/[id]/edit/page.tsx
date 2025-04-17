@@ -3,24 +3,36 @@
 import EditBookForm from '@/components/EditBookForm'
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+import { Book } from '@/types'
 
 export default function EditBookPage() {
-  const { id } = useParams()
-  const [book, setBook] = useState(null)
+  const params = useParams()
+  const router = useRouter()
+  const [book, setBook] = useState<Book | null>(null)
 
   useEffect(() => {
-    if (!id) return
-    async function fetchBook() {
-      const res = await fetch(`/api/books/${id}`)
-      const data = await res.json()
-      setBook(data)
+    const id = params?.id
+    if (!id || Array.isArray(id)) {
+      router.push('/books')
+      return
     }
-    fetchBook()
-  }, [id])
 
-  if (!book) {
-    return <p className="p-6">Loading book data...</p>
-  }
+    const fetchBook = async () => {
+      try {
+        const res = await fetch(`/api/books/${id}`)
+        if (!res.ok) throw new Error('Failed to fetch')
+        setBook(await res.json())
+      } catch (error) {
+        console.error(error)
+        router.push('/books')
+      }
+    }
+
+    fetchBook()
+  }, [params?.id, router])
+
+  if (!book) return <p className="p-6">Loading...</p>
 
   return (
     <main className="p-6 max-w-md mx-auto">

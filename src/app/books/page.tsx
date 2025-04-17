@@ -83,14 +83,14 @@ export default function BooksPage() {
         <button
           onClick={() => setPage(1)}
           disabled={page === 1}
-          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 dark:bg-gray-700"
+          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 dark:bg-gray-700 dark:text-white"
         >
           First
         </button>
         <button
           onClick={() => setPage((p) => Math.max(1, p - 1))}
           disabled={page === 1}
-          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 dark:bg-gray-700"
+          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 dark:bg-gray-700 dark:text-white"
         >
           Previous
         </button>
@@ -99,7 +99,7 @@ export default function BooksPage() {
             key={pg}
             onClick={() => setPage(pg)}
             className={`px-3 py-1 rounded ${
-              pg === page ? 'bg-blue-500 text-white' : 'bg-gray-200'
+              pg === page ? 'bg-blue-500 text-white dark:bg-blue-600 dark:text-white' : 'bg-gray-200 dark:bg-gray-700'
             }`}
           >
             {pg}
@@ -108,14 +108,14 @@ export default function BooksPage() {
         <button
           onClick={() => setPage((p) => p + 1)}
           disabled={totalPages !== null && page >= totalPages}
-          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 dark:bg-gray-700"
+          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 dark:bg-gray-700 dark:text-white"
         >
           Next
         </button>
         <button
           onClick={() => setPage(totalPages)}
           disabled={totalPages !== null && page >= totalPages}
-          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 dark:bg-gray-700"
+          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 dark:bg-gray-700 dark:text-white"
         >
           Last
         </button>
