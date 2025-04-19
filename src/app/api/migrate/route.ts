@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  return new Promise((resolve) => {
+  return new Promise<void | Response>((resolve) => {
     exec('npx prisma migrate deploy', { env: process.env }, (error, stdout, stderr) => {
       if (error) {
         console.error(stderr)
