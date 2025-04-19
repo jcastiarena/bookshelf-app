@@ -22,10 +22,11 @@ export const bookService = {
   },
 
   async create(book: Omit<Book, 'id'>) {
+    console.log(`Create Book: ${book.categories}`)
     const res = await fetch(API_BASE, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(book),
+      body: JSON.stringify({ ...book, categories: book.categories }),
     })
     if (!res.ok) {
       const error = await res.json().catch(() => ({}))

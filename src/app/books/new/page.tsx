@@ -1,9 +1,9 @@
-import AddBookForm from '@/components/AddBookForm';
+import AddBookFormWrapper from '@/components/AddBookFromWrapper';
 
 export default function NewBookPage() {
   return (
     <main className="p-8 max-w-xl mx-auto">
-        <AddBookForm />
+        <AddBookFormWrapper />
     </main>
   );
 }

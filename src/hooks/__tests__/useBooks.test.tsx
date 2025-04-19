@@ -13,12 +13,12 @@ vi.mock('@/services/bookService', () => ({
     getById: vi.fn(),
     update: vi.fn().mockResolvedValue(true),
     delete: vi.fn().mockResolvedValue(true),
-    create: vi.fn().mockResolvedValue({ id: 2, title: 'New', author: 'Author', status: 'to-read' })
+    create: vi.fn().mockResolvedValue({ id: 2, title: 'New', author: 'Author', status: 'to-read', categories: [{ id: 1, name: 'Category 1' }] })
   }
 }))
 
 describe('useBooks', () => {
-  const mockBook: Book = { id: 1, title: 'Book 1', author: 'Author 1', status: 'reading' }
+  const mockBook: Book = { id: 1, title: 'Book 1', author: 'Author 1', status: 'reading', categories: [{ id: 1, name: 'Category 1' }] }
 
   const GetWrapper = (initialBooks = [mockBook], initialDeletedBooks: Book[] = []) => {
     return {
@@ -53,7 +53,7 @@ describe('useBooks', () => {
   })
 
   it('calls createBook and updates state', async () => {
-    const newBook = { title: 'New', author: 'Author', status: 'to-read' }
+    const newBook = { title: 'New', author: 'Author', status: 'to-read', categories: [{ id: 1, name: 'Category 1' }] }
     const { wrapper } = GetWrapper([])
     const { result } = renderHook(() => useBooks(), { wrapper })
 
@@ -63,9 +63,6 @@ describe('useBooks', () => {
 
     const { bookService } = await import('@/services/bookService')
     expect(bookService.create).toHaveBeenCalledWith(newBook)
-    
-    // Note: State update happens through fetchBooks which is mocked to return empty array
-    // You might want to mock it differently for this test
   })
 
   it('calls editBook and updates the book in state', async () => {

@@ -12,8 +12,24 @@ datasource db {
 }
 
 model Book {
-  id     Int    @id @default(autoincrement())
-  title  String
-  author String
-  status String @default("to-read")
+  id          Int       @id @default(autoincrement())
+  title       String
+  author      String
+  status      String    @default("to-read")
+  categories  BookCategory[]
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  books       BookCategory[]
+}
+
+model BookCategory {
+  book        Book      @relation(fields: [bookId], references: [id])
+  bookId      Int
+  category    Category  @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+
+  @@id([bookId, categoryId])
 }

@@ -13,12 +13,28 @@ const statusColor = {
   };
 
   return (
-    <div className="">
-      <h2 className="text-lg font-semibold">{book.title}</h2>
-      <p className="text-sm text-gray-600 dark:text-gray-400">{book.author}</p>
-      <span className={`mt-2 inline-block px-2 py-1 text-sm rounded ${statusColor[book.status as keyof typeof statusColor]}`}>
-        {book.status}
-      </span>
+    <div className="bg-white dark:bg-gray-800 rounded-lg space-y-2 flex justify-between items-start ">
+      <div className="space-y-1">
+        <h2 className="text-xl  font-bold text-gray-900 dark:text-white">{book.title}</h2>
+        <p className="text-sm pt-2 pb-2 text-gray-600 dark:text-gray-300">{book.author}</p>
+        <span
+          className={`inline-block px-3 py-1 text-sm font-medium rounded-full ${statusColor[book.status as keyof typeof statusColor]}`}
+        >
+          {book.status}
+        </span>
+      </div>
+      <div className="flex flex-col gap-1">
+        {book.categories.map((cat, index) => {
+          return (
+            <span
+              key={cat.id}
+              className={`text-xs text-center font-small rounded px-2 py-1 bg-gray-100 text-gray-800 dark:text-gray-200`}
+            >
+              {cat.name}
+            </span>
+          );
+        })}
+      </div>
     </div>
   );
 }

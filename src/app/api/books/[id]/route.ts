@@ -54,7 +54,7 @@ export async function DELETE(request: Request) {
 export async function PATCH(request: Request) {
   const url = new URL(request.url);
   const body = await request.json();
-  console.log(body);
+  const { title, author, status = 'to_read', categoryIds } = body;
 
   const id = url.pathname.split('/').pop();
   if (!id || isNaN(parseInt(id, 10))) {
@@ -63,7 +63,15 @@ export async function PATCH(request: Request) {
 
   const updated = await prisma.book.update({
     where: { id: parseInt(id, 10) },
-    data: { title: body.title, author: body.author, status: body.status },
+    data: { 
+      title, 
+      author, 
+      status, 
+      categories: { 
+        connect: categoryIds?.map((id: string) => ({ id })) 
+      ,} 
+    },
+    include: { categories: true },
   })
 
   return NextResponse.json(updated)

@@ -66,13 +66,13 @@ export default function BooksPage() {
               <BookCard book={book} />
               <div className="flex justify-end gap-2 mt-4">
                 <Link href={`/books/${book.id}/edit`}>
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">Edit</button>
+                  <button className="bg-blue-100 hover:bg-blue-200 text-white px-3 py-1 rounded text-sm">✏️</button>
                 </Link>
                 <button
                   onClick={() => handleDelete(book)}
-                  className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm"
+                  className="bg-red-100 hover:bg-red-200 text-white px-3 py-1 rounded text-sm"
                 >
-                  Delete
+                  ❌
                 </button>
               </div>
             </div>
