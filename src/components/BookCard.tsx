@@ -24,7 +24,7 @@ const statusColor = {
         </span>
       </div>
       <div className="flex flex-col gap-1">
-        {book.categories.map((cat, index) => {
+        {book.categories.map((cat) => {
           return (
             <span
               key={cat.id}
