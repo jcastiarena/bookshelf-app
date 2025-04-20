@@ -98,15 +98,15 @@ export default function AddBookForm({ initialData, allCategories = [] }: BookFor
               options={allCategories.map(cat => ({ label: cat.name, value: cat.id.toString() }))}
               value={selectedCategories}
               onChange={(opts) => setSelectedCategories(opts as { label: string; value: string }[])}
-              className="react-select-container"
+              className="react-select-container dark:border-gray-600 dark:bg-gray-800 dark:text-black dark:placeholder:text-gray-200"
               classNamePrefix="react-select"
             />
           ) : (
-            <p className="text-sm text-gray-500">No categories available.</p>
+            <p className="text-sm text-gray-500 dark:text-gray-200">No categories available.</p>
           )
         ) : (
-          <div className="flex items-center space-x-2 text-sm text-gray-500">
-            <svg className="animate-spin h-5 w-5 text-gray-500" viewBox="0 0 24 24">
+          <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-200">
+            <svg className="animate-spin h-5 w-5 text-gray-500 dark:text-gray-200" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8z" />
             </svg>

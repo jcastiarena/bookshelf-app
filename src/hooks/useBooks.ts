@@ -12,6 +12,7 @@ export function useBooks() {
   const [totalPages, setTotalPages] = useState(1)
   const [total, setTotal] = useState(0)
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([])
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([])
 
   const fetchBooks = useCallback(async (filters?: BookFilters) => {
     try {
@@ -56,7 +57,7 @@ export function useBooks() {
 
   const undoDelete = async (book: Omit<Book, 'id'>) => {
     await bookService.create(book)
-    fetchBooks()
+    fetchBooks({ statuses: selectedStatuses, categoryIds: selectedCategoryIds });
   }
 
   const createBook = async (book: Omit<Book, 'id'>) => {
@@ -82,5 +83,7 @@ export function useBooks() {
     total,
     selectedCategoryIds,
     setSelectedCategoryIds,
+    selectedStatuses,
+    setSelectedStatuses,
   }
 }
