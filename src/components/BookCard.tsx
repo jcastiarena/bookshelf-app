@@ -13,8 +13,8 @@ const statusColor = {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg space-y-2 flex justify-between items-start ">
-      <div className="space-y-1">
+    <div className="bg-white dark:bg-black rounded-lg space-y-2 flex justify-between items-start dark:text-gray-200 ">
+      <div className="space-y-1 dark:text-gray-200">
         <h2 className="text-xl  font-bold text-gray-900 dark:text-white">{book.title}</h2>
         <p className="text-sm pt-2 pb-2 text-gray-600 dark:text-gray-300">{book.author}</p>
         <span
