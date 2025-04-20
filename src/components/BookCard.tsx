@@ -23,12 +23,12 @@ const statusColor = {
           {book.status}
         </span>
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 dark:text-gray-200">
         {book.categories.map((cat) => {
           return (
             <span
               key={cat.id}
-              className={`text-xs text-center font-small rounded px-2 py-1 bg-gray-100 text-gray-800 dark:text-gray-200`}
+              className={`text-xs text-center font-small rounded px-2 py-1 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200`}
             >
               {cat.name}
             </span>
