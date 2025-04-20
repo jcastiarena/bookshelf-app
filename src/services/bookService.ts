@@ -4,15 +4,35 @@ import { toast } from 'react-hot-toast';
 export const BOOK_STATUSES = ['to-read', 'reading', 'finished'] as const;
 export type BookStatus = (typeof BOOK_STATUSES)[number];
 
+export interface BookFilters {
+  title?: string;
+  author?: string;
+  statuses?: string[];
+  categoryIds?: string[];
+}
+
 const API_BASE = '/api/books'
 
 export const bookService = {
 
-  async getAll(page = 1, limit = 10): Promise<{ books: Book[]; totalPages: number, total: number, currentPage: number }> {
-    const res = await fetch(`${API_BASE}?page=${page}&limit=${limit}`, {
+  async getAll(
+    page = 1,
+    limit = 10,
+    filters?: BookFilters
+  ): Promise<{ books: Book[]; totalPages: number, total: number, currentPage: number }> {
+    const params = new URLSearchParams();
+    params.set('page', page.toString());
+    params.set('limit', limit.toString());
+
+    if (filters?.title) params.set('title', filters.title);
+    if (filters?.author) params.set('author', filters.author);
+    filters?.statuses?.forEach(status => params.append('statuses', status));
+    filters?.categoryIds?.forEach(id => params.append('categoryIds', id));
+
+    const res = await fetch(`${API_BASE}?${params.toString()}`, {
       cache: 'no-store',
-    })
-    if (!res.ok) throw new Error('Failed to fetch books')
+    });
+    if (!res.ok) throw new Error('Failed to fetch books', { cause: res });
     return res.json()
   },
 

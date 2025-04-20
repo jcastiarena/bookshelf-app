@@ -1,7 +1,7 @@
 'use client'
 
 import { useBookContext } from '@/context/BookContext'
-import { bookService } from '@/services/bookService'
+import { bookService, BookFilters } from '@/services/bookService'
 import { Book } from '@/types'
 import { useCallback, useState } from 'react'
 import { PAGE_SIZE } from '@/lib/appConfig'
@@ -12,19 +12,18 @@ export function useBooks() {
   const [totalPages, setTotalPages] = useState(1)
   const [total, setTotal] = useState(0)
 
-  const fetchBooks = useCallback(async (limit = PAGE_SIZE) => {
-    try {
-      setPage(page)
-      setIsLoading(true)
-      const { books, total, totalPages } = await bookService.getAll(page, limit)
-      setBooks(books)
-      setTotal(total)
-      setTotalPages(totalPages)
-    } finally {
-      setIsLoading(false)
-    }
-  }, [page, setIsLoading, setBooks, setTotal, setTotalPages]);
-
+  const fetchBooks = useCallback(async (filters?: BookFilters) => {
+  try {
+    setPage(page);
+    setIsLoading(true);
+    const { books, total, totalPages } = await bookService.getAll(page, PAGE_SIZE, filters);
+    setBooks(books);
+    setTotal(total);
+    setTotalPages(totalPages);
+  } finally {
+    setIsLoading(false);
+  }
+}, [page, setIsLoading, setBooks, setTotal, setTotalPages]);
   const getById = async (id: number) => {
     try {
       setIsLoading(true)

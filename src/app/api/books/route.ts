@@ -10,6 +10,12 @@ import { NextResponse } from 'next/server'
  */
 export async function GET(req: Request) {
   try {
+    const searchParams = new URL(req.url).searchParams
+    const title = searchParams.get('title') ?? undefined
+    const author = searchParams.get('author') ?? undefined
+    const statuses = searchParams.getAll('statuses')
+    const categoryIds = searchParams.getAll('categoryIds')
+    console.log(`Get Books: ${title}, ${author}, ${statuses}, ${categoryIds}`)
     const url = new URL(req.url)
     const page = Math.max(parseInt(url.searchParams.get('page') || '1', 10), 1)
     const limit = Math.max(parseInt(url.searchParams.get('limit') || '10', 10), 1)
@@ -21,6 +27,12 @@ export async function GET(req: Request) {
         skip,
         take: limit,
         orderBy: { id: 'asc' },
+        where: {
+          ...(title ? { title: { contains: title, mode: 'insensitive' } } : {}),
+          ...(author ? { author: { contains: author, mode: 'insensitive' } } : {}),
+          ...(statuses.length > 0 ? { status: { in: statuses } } : {}),
+          ...(categoryIds.length > 0 ? { categories: { some: { categoryId: { in: categoryIds.map(id => parseInt(id)) } } } } : {}),
+        },
         include: {
           categories: {
             include: {
@@ -34,8 +46,10 @@ export async function GET(req: Request) {
 
     const transformedBooks = books.map(book => ({
       ...book,
-      categories: book.categories.map(bc => bc.category),
-    }));
+      categories: book.categories
+        .map(bc => bc.category)
+        .sort((a, b) => a.name.localeCompare(b.name)),
+    }))
 
     return NextResponse.json({
       books: transformedBooks,
