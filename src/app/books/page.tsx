@@ -156,7 +156,7 @@ export default function BooksPage() {
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               {books.map((book) => (
                 <div key={book.id} className="border rounded p-4 flex flex-col justify-between">
-                  <BookCard book={book} />
+                  <BookCard book={book} selectedCategoryIds={selectedCategories} />
                   <div className="flex justify-end gap-2 mt-4">
                     <Link href={`/books/${book.id}/edit`}>
                       <button className="bg-blue-100 hover:bg-blue-200 text-white px-3 py-1 rounded text-sm">✏️</button>

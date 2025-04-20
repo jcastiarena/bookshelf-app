@@ -1,12 +1,13 @@
 import { Book } from '@/types';
-import React from 'react'
+import React from 'react';
 
 type Props = {
   book: Book;
+  selectedCategoryIds: string[];
 };
 
-export function BookCard({ book }: Props) {
-const statusColor = {
+export function BookCard({ book, selectedCategoryIds }: Props) {
+  const statusColor = {
     "to-read": "bg-blue-100 text-blue-800 dark:bg-blue-600 dark:text-white",
     "reading": "bg-yellow-100 text-yellow-800 dark:bg-yellow-600 dark:text-white",
     "finished": "bg-green-100 text-green-800 dark:bg-green-600 dark:text-white",
@@ -25,10 +26,16 @@ const statusColor = {
       </div>
       <div className="flex flex-col gap-1 dark:text-gray-200">
         {book.categories.map((cat) => {
+          const isActive = selectedCategoryIds.includes(cat.id.toString());
+          console.log(`Category ${cat.name} isActive: ${isActive}`);
           return (
             <span
               key={cat.id}
-              className={`text-xs text-center font-small rounded px-2 py-1 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200`}
+              className={`text-xs text-center font-medium rounded px-2 py-1 ${
+                isActive
+                  ? 'bg-blue-600 text-white font-semibold border border-blue-700'
+                  : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
+              }`}
             >
               {cat.name}
             </span>

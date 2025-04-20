@@ -11,19 +11,21 @@ export function useBooks() {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [total, setTotal] = useState(0)
+  const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([])
 
   const fetchBooks = useCallback(async (filters?: BookFilters) => {
-  try {
-    setPage(page);
-    setIsLoading(true);
-    const { books, total, totalPages } = await bookService.getAll(page, PAGE_SIZE, filters);
-    setBooks(books);
-    setTotal(total);
-    setTotalPages(totalPages);
-  } finally {
-    setIsLoading(false);
-  }
-}, [page, setIsLoading, setBooks, setTotal, setTotalPages]);
+    try {
+      setPage(page);
+      setIsLoading(true);
+      const { books, total, totalPages } = await bookService.getAll(page, PAGE_SIZE, filters);
+      setBooks(books);
+      setTotal(total);
+      setTotalPages(totalPages);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [page, setIsLoading, setBooks, setTotal, setTotalPages]);
+  
   const getById = async (id: number) => {
     try {
       setIsLoading(true)
@@ -78,5 +80,7 @@ export function useBooks() {
     setPage,
     totalPages,
     total,
+    selectedCategoryIds,
+    setSelectedCategoryIds,
   }
 }

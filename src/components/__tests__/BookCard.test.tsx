@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest'
 describe('BookCard', () => {
   it('renders the title and author', () => {
     const book = { id: 1, title: 'Test Book', author: 'Test Author', status: 'reading', categories: [{ id: 1, name: 'Category 1' }] }
-    render(<BookCard book={book} />)
+    render(<BookCard book={book} selectedCategoryIds={['1']} />)
 
     expect(screen.getByText('Test Book')).toBeInTheDocument()
     expect(screen.getByText('Test Author')).toBeInTheDocument()
