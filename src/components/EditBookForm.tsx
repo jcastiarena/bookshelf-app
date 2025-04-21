@@ -8,30 +8,30 @@ import { useBooks } from '@/hooks/useBooks';
 import { Category } from '@/types';
 import { categoryService } from '@/services/categoryService';
 
-export default function EditBookForm({ book }: { book: Book & { categories: Category[] } }) {
+
+export default function EditBookForm({ book }: { book: Book & { categories: string[] } }) {
   const [title, setTitle] = useState(book.title);
   const [author, setAuthor] = useState(book.author);
   const [, setError] = useState('');
   const [, setSuccess] = useState('');
   const router = useRouter()
   const [status, setStatus] = useState(book.status);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(book.categories?.map(c => c.id.toString()) ?? []);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [allCategories, setAllCategories] = useState<Category[]>([]);
   const statuses = ['to-read', 'reading', 'finished']
   const { updateBook } = useBooks();
 
   useEffect(() => {
+    if (book.categories && book.categories.length > 0) {
+      setSelectedCategories(book.categories.map((cat) => cat.id.toString()));
+    }
+  }, [book.categories]);
+  
+  useEffect(() => {
     categoryService.getAllCategories().then(fetchedCategories => {
       setAllCategories(fetchedCategories);
     });
   }, []);
-
-  useEffect(() => {
-    if (allCategories.length > 0) {
-      const currentCategoryIds = book.categories?.map(c => c.id.toString()) ?? [];
-      setSelectedCategories(currentCategoryIds);
-    }
-  }, [allCategories, book.categories]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -54,11 +54,11 @@ export default function EditBookForm({ book }: { book: Book & { categories: Cate
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label className="block mb-1 text-sm">Title</label>
-        <input
-          name="title"
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block mb-1 text-sm">Title</label>
+          <input
+            name="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="w-full border rounded px-3 py-2"

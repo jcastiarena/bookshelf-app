@@ -37,10 +37,19 @@ export function useBooks() {
     }
   }
 
-  const updateBook = async (id: number, book: Partial<Book>) => {
-    const updated = await bookService.update(id, book)
+  const updateBook = async (
+    id: number,
+    book: Partial<Book> & { categories?: string[] }
+  ) => {
+    const { categories, ...bookData } = book
+    const updated = await bookService.update(id, {
+      ...bookData,
+      categories: categories,
+    })
     if (updated) {
-      setBooks((prev) => prev.map((b) => b.id === id ? { ...b, ...book } : b))
+      setBooks((prev) =>
+        prev.map((b) => (b.id === id ? { ...b, ...book, id } : b))
+      )
     } else {
       console.log('Failed to update book')
     }

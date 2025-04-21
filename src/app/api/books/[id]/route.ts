@@ -18,13 +18,25 @@ export async function GET(request: Request) {
 
   const book = await prisma.book.findUnique({
     where: { id: parseInt(id, 10) },
+    include: {
+      categories: {
+        include: { category: true }
+      },
+    },
   })
 
   if (!book) {
     return NextResponse.json({ error: 'Book not found' }, { status: 404 })
   }
 
-  return NextResponse.json(book)
+  const transformedBook = {
+    ...book,
+    categories: book.categories
+      .map(bc => ({ id: bc.category.id, name: bc.category.name }))
+      .sort((a, b) => a.name.localeCompare(b.name)),
+  } 
+
+  return NextResponse.json(transformedBook)
 }
 
 /**
@@ -64,25 +76,57 @@ export async function DELETE(request: Request) {
 export async function PATCH(request: Request) {
   const url = new URL(request.url);
   const body = await request.json();
-  const { title, author, status = 'to_read', categoryIds } = body;
+  const { title, author, status = 'to_read', categories } = body;
 
   const id = url.pathname.split('/').pop();
   if (!id || isNaN(parseInt(id, 10))) {
-    return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
+    return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
   }
 
-  const updated = await prisma.book.update({
+  console.log(`Updating book ${id}`);
+  await prisma.book.update({
     where: { id: parseInt(id, 10) },
-    data: { 
-      title, 
-      author, 
-      status, 
-      categories: { 
-        connect: categoryIds?.map((id: string) => ({ id })) 
-      ,} 
+    data: {
+      title,
+      author,
+      status,
     },
-    include: { categories: true },
-  })
+  });
 
-  return NextResponse.json(updated)
+  console.log(`Deleting categories for book ${id}`);
+  await prisma.bookCategory.deleteMany({
+    where: {
+      bookId: parseInt(id, 10),
+    },
+  });
+
+  console.log(`Category IDs: ${categories}`);
+  if (Array.isArray(categories)) {
+    console.log(`Creating categories for book ${id}`);
+    await prisma.bookCategory.createMany({
+      data: categories.map(categoryId => ({
+        bookId: parseInt(id, 10),
+        categoryId: parseInt(categoryId, 10),
+      })),
+    });
+  }
+
+  const updated = await prisma.book.findUnique({
+    where: { id: parseInt(id, 10) },
+    include: {
+      categories: {
+        include: { category: true },
+      },
+    },
+  });
+
+  const transformedBook = {
+    ...updated,
+    categories: updated?.categories.map(bc => ({
+      id: bc.category.id,
+      name: bc.category.name,
+    })).sort((a, b) => a.name.localeCompare(b.name)),
+  };
+
+  return NextResponse.json(transformedBook);
 }

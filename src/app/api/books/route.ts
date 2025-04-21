@@ -15,42 +15,43 @@ export async function GET(req: Request) {
     const author = searchParams.get('author') ?? undefined
     const statuses = searchParams.getAll('statuses')
     const categoryIds = searchParams.getAll('categoryIds')
-    console.log(`Get Books: ${title}, ${author}, ${statuses}, ${categoryIds}`)
     const url = new URL(req.url)
     const page = Math.max(parseInt(url.searchParams.get('page') || '1', 10), 1)
     const limit = Math.max(parseInt(url.searchParams.get('limit') || '10', 10), 1)
 
     const skip = (page - 1) * limit
 
-    const [books, total] = await Promise.all([
-      prisma.book.findMany({
-        skip,
-        take: limit,
-        orderBy: { id: 'asc' },
-        where: {
-          ...(title ? { title: { contains: title, mode: 'insensitive' } } : {}),
-          ...(author ? { author: { contains: author, mode: 'insensitive' } } : {}),
-          ...(statuses.length > 0 ? { status: { in: statuses } } : {}),
-          ...(categoryIds.length > 0 ? { categories: { some: { categoryId: { in: categoryIds.map(id => parseInt(id)) } } } } : {}),
-        },
-        include: {
-          categories: {
-            include: {
-              category: true,
-            },
-          },
-        },
-      }),
-      prisma.book.count({
-        where: {
-          ...(title ? { title: { contains: title, mode: 'insensitive' } } : {}),
-          ...(author ? { author: { contains: author, mode: 'insensitive' } } : {}),
-          ...(statuses.length > 0 ? { status: { in: statuses } } : {}),
-          ...(categoryIds.length > 0 ? { categories: { some: { categoryId: { in: categoryIds.map(id => parseInt(id)) } } } } : {}),
-        },
-      }),
-    ])
+    const filters = {
+      ...(title ? { title: { contains: title, mode: 'insensitive' } } : {}),
+      ...(author ? { author: { contains: author, mode: 'insensitive' } } : {}),
+      ...(statuses.length > 0 ? { status: { in: statuses } } : {}),
+      ...(categoryIds.length > 0 ? { categories: { some: { categoryId: { in: categoryIds.map(id => parseInt(id)) } } } } : {}),
+    };
 
+    const total = await prisma.book.count({ where: filters });
+    console.log(`Total: ${total}, Filters: ${JSON.stringify(filters)}, Skip: ${skip}, Limit: ${limit}`);
+    if (skip >= total) {
+      return NextResponse.json({
+        books: [],
+        total,
+        totalPages: Math.ceil(total / limit),
+        currentPage: page,
+      });
+    }
+
+    const books = await prisma.book.findMany({
+      skip,
+      take: limit,
+      orderBy: { id: 'asc' },
+      where: filters,
+      include: {
+        categories: {
+          include: { category: true },
+        },
+      },
+    })
+
+    console.log(`Books: ${books}, Total: ${total}`);
     const transformedBooks = books.map(book => ({
       ...book,
       categories: book.categories
@@ -77,7 +78,6 @@ export async function GET(req: Request) {
  */
 export async function POST(req: Request) {
   const { title, author, status = 'to_read', categories } = await req.json()
-  console.log(`Create Categories: ${categories}`)
   const newBook = await prisma.book.create({
     data: {
       title,

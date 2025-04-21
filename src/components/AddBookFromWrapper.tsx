@@ -15,7 +15,6 @@ export default function AddBookFormWrapper() {
   useEffect(() => {
     categoryService.getAllCategories().then(res => {
       setAllCategories(res);
-      console.log(`Categories: ${res}`);
     });
   }, []);
 
@@ -25,7 +24,6 @@ export default function AddBookFormWrapper() {
     categoryIds: string[];
   }) => {
     const selectedCategories = allCategories.filter(cat => data.categoryIds.includes(cat.id.toString()));
-    console.log(`Selected Categories: ${selectedCategories}`);
     await createBook({ title: data.title, author: data.author, status: 'to-read', categories: selectedCategories });
     router.push('/books');
   };

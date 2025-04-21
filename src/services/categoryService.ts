@@ -10,7 +10,6 @@ export const categoryService = {
     })
     if (!res.ok) throw new Error('Failed to fetch categories')
     const data = await res.json()
-    console.log(`Service: Categories: ${data}`);
     return data
   },
 
