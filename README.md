@@ -1,6 +1,5 @@
 # 📚 BookShelf App
 
-![Vercel Deploy](https://vercel.com/api/badge/deploy?repository=https://github.com/jcastiarena/bookshelf-app)
 [![Live App](https://img.shields.io/badge/Live%20App-Open-00C7B7?style=flat&logo=vercel&logoColor=white)](https://bookshelf-app-iota-jade.vercel.app/books)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007acc?style=flat&logo=typescript&logoColor=white)
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat&logo=next.js&logoColor=white)
