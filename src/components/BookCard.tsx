@@ -27,7 +27,6 @@ export function BookCard({ book, selectedCategoryIds }: Props) {
       <div className="flex flex-col gap-1 dark:text-gray-200">
         {book.categories.map((cat) => {
           const isActive = cat.id && selectedCategoryIds?.includes(cat.id.toString());
-          console.log(`Category ${cat.name} isActive: ${isActive}`);
           return (
             <span
               key={cat.id}

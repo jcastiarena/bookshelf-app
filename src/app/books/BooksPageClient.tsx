@@ -60,13 +60,16 @@ export default function BooksPage() {
   }, [])
 
   useEffect(() => {
+  }, [debouncedSearchText, debouncedAuthor, selectedStatuses, selectedCategories]);
+
+  useEffect(() => {
     fetchBooks({
       title: debouncedSearchText,
       author: debouncedAuthor,
       statuses: selectedStatuses,
       categoryIds: selectedCategories,
     });
-  }, [debouncedSearchText, debouncedAuthor, selectedStatuses, selectedCategories, fetchBooks]);
+  }, [debouncedSearchText, debouncedAuthor, selectedStatuses, selectedCategories, fetchBooks, page]);
 
   useEffect(() => {
     const params = new URLSearchParams();

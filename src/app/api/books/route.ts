@@ -41,7 +41,14 @@ export async function GET(req: Request) {
           },
         },
       }),
-      prisma.book.count(),
+      prisma.book.count({
+        where: {
+          ...(title ? { title: { contains: title, mode: 'insensitive' } } : {}),
+          ...(author ? { author: { contains: author, mode: 'insensitive' } } : {}),
+          ...(statuses.length > 0 ? { status: { in: statuses } } : {}),
+          ...(categoryIds.length > 0 ? { categories: { some: { categoryId: { in: categoryIds.map(id => parseInt(id)) } } } } : {}),
+        },
+      }),
     ])
 
     const transformedBooks = books.map(book => ({
