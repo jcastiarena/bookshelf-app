@@ -1,5 +1,15 @@
 # 📚 BookShelf App
 
+![Vercel Deploy](https://vercel.com/api/badge/deploy?repository=https://github.com/jcastiarena/bookshelf-app)
+![TypeScript](https://img.shields.io/badge/TypeScript-007acc?style=flat&logo=typescript&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat&logo=next.js&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=flat&logo=prisma&logoColor=white)
+![MIT License](https://img.shields.io/badge/license-MIT-green)
+
+![BookShelf Screenshot](./screenshot.png)
+
 BookShelf is a modern full-stack web app built with React and Next.js, designed as a side project to deepen my understanding of full-stack TypeScript development. It demonstrates best practices in UI/UX, serverless architecture, and component design.
 
 ---
