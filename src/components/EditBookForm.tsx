@@ -9,21 +9,21 @@ import { Category } from '@/types';
 import { categoryService } from '@/services/categoryService';
 
 
-export default function EditBookForm({ book }: { book: Book & { categories: string[] } }) {
+export default function EditBookForm({ book }: { book: Book & { categories: Category[] } }) {
   const [title, setTitle] = useState(book.title);
   const [author, setAuthor] = useState(book.author);
   const [, setError] = useState('');
   const [, setSuccess] = useState('');
   const router = useRouter()
   const [status, setStatus] = useState(book.status);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
   const [allCategories, setAllCategories] = useState<Category[]>([]);
   const statuses = ['to-read', 'reading', 'finished']
   const { updateBook } = useBooks();
 
   useEffect(() => {
     if (book.categories && book.categories.length > 0) {
-      setSelectedCategories(book.categories.map((cat) => cat.id.toString()));
+      setSelectedCategories(book.categories);
     }
   }, [book.categories]);
   
@@ -93,7 +93,7 @@ export default function EditBookForm({ book }: { book: Book & { categories: stri
         <label className="block font-semibold mb-1">Categories</label>
         <div className="flex flex-wrap gap-2">
           {allCategories.map(cat => {
-            const isSelected = selectedCategories.includes(cat.id.toString());
+            const isSelected = selectedCategories.some(selected => selected.id === cat.id);
             return (
               <button
                 key={cat.id}
@@ -106,8 +106,8 @@ export default function EditBookForm({ book }: { book: Book & { categories: stri
                 onClick={() =>
                   setSelectedCategories(prev =>
                     isSelected
-                      ? prev.filter(id => id !== cat.id.toString())
-                      : [...prev, cat.id.toString()]
+                      ? prev.filter(selected => selected.id !== cat.id)
+                      : [...prev, cat]
                   )
                 }
               >

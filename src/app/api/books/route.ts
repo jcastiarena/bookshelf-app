@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { Prisma } from '@prisma/client'
 import { Category } from '@/types'
 import { NextResponse } from 'next/server'
 
@@ -22,8 +23,8 @@ export async function GET(req: Request) {
     const skip = (page - 1) * limit
 
     const filters = {
-      ...(title ? { title: { contains: title, mode: 'insensitive' } } : {}),
-      ...(author ? { author: { contains: author, mode: 'insensitive' } } : {}),
+      ...(title ? { title: { contains: title, mode: Prisma.QueryMode.insensitive } } : {}),
+      ...(author ? { author: { contains: author, mode: Prisma.QueryMode.insensitive } } : {}),
       ...(statuses.length > 0 ? { status: { in: statuses } } : {}),
       ...(categoryIds.length > 0 ? { categories: { some: { categoryId: { in: categoryIds.map(id => parseInt(id)) } } } } : {}),
     };

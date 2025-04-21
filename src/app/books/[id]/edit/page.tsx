@@ -1,7 +1,7 @@
 'use client'
 
 import EditBookForm from '@/components/EditBookForm'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { Book, Category } from '@/types'
@@ -10,9 +10,8 @@ import { useBooks } from '@/hooks/useBooks'
 export default function EditBookPage() {
   const params = useParams()
   const router = useRouter()
-const [book, setBook] = useState<(Book & { categories: Category[] }) | null>(null)
+  const [book, setBook] = useState<(Book & { categories: Category[] }) | null>(null)
   const books = useBooks();
-  const getBookById = useCallback(books.getById, []);
 
   useEffect(() => {
     const id = params?.id
@@ -23,7 +22,7 @@ const [book, setBook] = useState<(Book & { categories: Category[] }) | null>(nul
 
     const fetchBook = async () => {
       try {
-        const res = await getBookById(Number(id))
+        const res = await books.getById(Number(id))
         if (!res) throw new Error('Failed to fetch')
         setBook(res)
       } catch (error) {
@@ -33,7 +32,7 @@ const [book, setBook] = useState<(Book & { categories: Category[] }) | null>(nul
     }
 
     fetchBook()
-  }, [params?.id, getBookById])
+  }, [params?.id, router])
 
   if (!book) return <p className="p-6">Loading...</p>
 

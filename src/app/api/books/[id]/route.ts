@@ -104,9 +104,9 @@ export async function PATCH(request: Request) {
   if (Array.isArray(categories)) {
     console.log(`Creating categories for book ${id}`);
     await prisma.bookCategory.createMany({
-      data: categories.map(categoryId => ({
+      data: categories.map(cat => ({
         bookId: parseInt(id, 10),
-        categoryId: parseInt(categoryId, 10),
+        categoryId: parseInt(cat.id, 10),
       })),
     });
   }

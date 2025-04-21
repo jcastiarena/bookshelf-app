@@ -2,7 +2,7 @@
 
 import { useBookContext } from '@/context/BookContext'
 import { bookService, BookFilters } from '@/services/bookService'
-import { Book } from '@/types'
+import { Book, Category } from '@/types'
 import { useCallback, useState } from 'react'
 import { PAGE_SIZE } from '@/lib/appConfig'
 
@@ -39,7 +39,7 @@ export function useBooks() {
 
   const updateBook = async (
     id: number,
-    book: Partial<Book> & { categories?: string[] }
+    book: Partial<Book> & { categories?: Category[] }
   ) => {
     const { categories, ...bookData } = book
     const updated = await bookService.update(id, {
