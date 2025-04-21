@@ -32,7 +32,7 @@ export default function EditBookPage() {
     }
 
     fetchBook()
-  }, [params?.id, router, getById, setBook])
+  }, [params?.id, getById])
 
   if (!book) return <p className="p-6">Loading...</p>
 

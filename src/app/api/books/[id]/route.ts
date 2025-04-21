@@ -41,7 +41,17 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
   }
 
-  await prisma.book.delete({ where: { id: parseInt(id, 10) } })
+  await prisma.bookCategory.deleteMany({
+    where: {
+      bookId: parseInt(id, 10),
+    },
+  })
+
+  await prisma.book.delete({
+    where: {
+      id: parseInt(id, 10),
+    },
+  })
   return NextResponse.json({ message: 'Deleted' })
 }
 
