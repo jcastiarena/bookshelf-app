@@ -1,6 +1,8 @@
 import { Book } from '@/types'
 import { toast } from 'react-hot-toast';
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+
 export const BOOK_STATUSES = ['to-read', 'reading', 'finished'] as const;
 export type BookStatus = (typeof BOOK_STATUSES)[number];
 
@@ -79,5 +81,14 @@ export const bookService = {
     const res = await fetch(`${API_BASE}/${id}`)
     if (!res.ok) throw new Error('Book not found')
     return res.json()
+  },
+
+  async getFeaturedBooks(): Promise<Book[]> {
+    const res = await fetch(`${BASE_URL}${API_BASE}?page=1&limit=3&sort=desc`, {
+      cache: 'no-store',
+    });
+    if (!res.ok) throw new Error('Failed to fetch featured books');
+    const { books } = await res.json();
+    return books;
   },
 }

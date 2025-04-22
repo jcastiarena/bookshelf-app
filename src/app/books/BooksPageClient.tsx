@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useBooks } from '@/hooks/useBooks'
 import Link from 'next/link'
+import { ArrowLeftIcon } from '@heroicons/react/24/solid'
 import { BookCard } from '@/components/BookCard'
 import { toast, Toaster } from 'react-hot-toast'
 import { SetStateAction } from 'react'
@@ -117,6 +118,16 @@ export default function BooksPage() {
   return (
     <main className="min-h-screen flex flex-col p-6 max-w-6xl mx-auto">
       <Toaster />
+      {/* Back to Home Link */}
+      <div className="mb-2">
+        <Link
+          href="/"
+          className="inline-flex items-center text-sm text-blue-600 hover:underline"
+        >
+          <ArrowLeftIcon className="w-4 h-4 mr-1" />
+          Back to Home
+        </Link>
+      </div>
       <div className="flex-grow grid grid-cols-1 md:grid-cols-[250px_1fr] gap-6">
         {/* Sidebar */}
         <aside className="sticky top-6 h-fit bg-gray-50 dark:bg-black p-4 rounded-lg shadow-sm space-y-6 text-sm text-gray-700 dark:text-gray-200">

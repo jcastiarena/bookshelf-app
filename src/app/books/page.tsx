@@ -3,8 +3,10 @@ import BooksPageClient from './BooksPageClient'
 
 export default function Page() {
   return (
-    <Suspense fallback={<div>Loading books...</div>}>
-      <BooksPageClient />
-    </Suspense>
+    <main className="p-6">
+      <Suspense fallback={<div>Loading books...</div>}>
+        <BooksPageClient />
+      </Suspense>
+    </main>
   )
 }
